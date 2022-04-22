@@ -21,12 +21,22 @@ const UploadTest = (props) => {
       for (const file of selectFiles) {
         tempFiles = [
           ...tempFiles,
-          { id: fileId.current++, object: file, videoId: "" },
+          { id: fileId.current++, object: file, videoId: "", isLoading: true },
         ];
         if (tempFiles.length > 4) {
           tempFiles.slice(0, 4);
         } else {
-          console.log("upload start");
+          tempFiles?.map((data) => {
+            if (data.videoId) {
+              return;
+            } else {
+              console.log(`before isLoding:${data.isLoading}`);
+              console.log(`video uploading`);
+              data.videoId = `videoId${fileId.current}`;
+              data.isLoading = false;
+              console.log(`after isLoding:${data.isLoading}`);
+            }
+          });
         }
       }
       setFiles(tempFiles);
