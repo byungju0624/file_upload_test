@@ -13,6 +13,13 @@ const UploadTest = (props) => {
     (e) => {
       let selectFiles = [];
       let tempFiles = files;
+      let video = document.createElement("video");
+
+      video.onloadedmetadata = () => {
+        console.log("loaded");
+        console.log(`width: ${this.width} height: ${this.height}`);
+      };
+      video.src = _URL.createObjectURL(e.target.files);
       if (e.type === "drop") {
         selectFiles = e.dataTransfer.files;
       } else {
@@ -122,9 +129,14 @@ const UploadTest = (props) => {
           const {
             id,
             object: { name, size },
+            isLoading,
+            videoId,
           } = file;
+          console.log(isLoading);
+          console.log(videoId);
           return (
             <div key={id} className={styles.videoList}>
+              {isLoading && <div>Lodaing</div>}
               <div>{`${name.split(".")[0]}.mp4`}</div>
               <div>{`${(size / 1024 / 1024).toFixed(1)}MB`}</div>
               <div
